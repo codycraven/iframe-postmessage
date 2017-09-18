@@ -1,0 +1,14 @@
+parent.example.com {
+  tls off
+  root parent
+}
+
+evil-parent.example.com {
+  tls off
+  root parent
+}
+
+iframe.example.com {
+  tls off
+  root iframe
+}

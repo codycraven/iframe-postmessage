@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iFrame'd Site</title>
+</head>
+<body>
+  <form>
+    <input id="inputField" type="text" placeholder="Your name">
+    <input type="submit" id="saveButton" value="Save">
+    <button id="deleteButton">Delete</button>
+    <br><br>
+    <button id="sendButton">Send local storage to parent</button>
+  </form>
+  <script>
+    (function () {
+      var inputField = document.getElementById('inputField');
+      var saveButton = document.getElementById('saveButton');
+      var deleteButton = document.getElementById('deleteButton');
+      var sendButton = document.getElementById('sendButton');
+      var sendBadOriginButton = document.getElementById('sendBadOriginButton');
+
+      function postToParent(origin) {
+        parent.postMessage(localStorage.getItem('dataLayer'), origin);
+      }
+
+      saveButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        localStorage.setItem('dataLayer', inputField.value);
+      });
+
+      deleteButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        localStorage.removeItem('dataLayer');
+        inputField.value = null;
+      });
+
+      sendButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        postToParent('http://parent.example.com:1337/');
+      });
+
+      inputField.value = localStorage.getItem('dataLayer');
+      postToParent('http://parent.example.com:1337/');
+    })();
+  </script>
+</body>
+</html>
